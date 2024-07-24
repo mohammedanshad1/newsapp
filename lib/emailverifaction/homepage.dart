@@ -1,4 +1,5 @@
 
+import 'package:firestoreproject/emailverifaction/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,11 @@ class homes extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
 
-      appBar: AppBar(title: Text("Home Page"),),
+      appBar: AppBar(title: Text("Home Page"),centerTitle: true,
+      leading: GestureDetector(onTap: (){
+        Navigator.push(context,MaterialPageRoute(builder: (context)=>Login()));
+      },
+          child: Icon(Icons.arrow_back)),),
 
       body: Column(
         children: [

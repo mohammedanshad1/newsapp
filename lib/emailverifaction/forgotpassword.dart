@@ -26,8 +26,7 @@ class _ForgotpasswordState extends State<Forgotpassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Enter Your Email"),
-        centerTitle: true,
+
       ),
       body: Form(
         key: _formkey,
