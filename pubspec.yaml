@@ -21,6 +21,7 @@ dependencies:
   firebase_core:
   cloud_firestore:
   hexcolor:
+  google_sign_in:
 
 dev_dependencies:
   flutter_test:

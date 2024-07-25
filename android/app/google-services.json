@@ -12,7 +12,12 @@
           "package_name": "com.example.firestoreproject"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1090891692962-rll01p9cq0rbh2ultt7mhiao9cuo5n3n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCE_PhKmIR5a9vF2F2YX8fX5vhaBDrxsDM"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1090891692962-rll01p9cq0rbh2ultt7mhiao9cuo5n3n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1090891692962-quoe62drt1c8d9qp9d68ptlful8qm075.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.firestoreproject"
+              }
+            }
+          ]
         }
       }
     }

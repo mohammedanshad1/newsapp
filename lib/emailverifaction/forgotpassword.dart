@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'firehelper.dart';
 
 class Forgotpassword extends StatefulWidget {
@@ -15,7 +16,7 @@ class _ForgotpasswordState extends State<Forgotpassword> {
   final _formkey = GlobalKey<FormState>();
 
   void resetPassword() async {
-    await firebase(FirebaseAuth.instance).resetpassword(
+    await firebase(FirebaseAuth.instance).resetPassword(
       email: emailcontroller.text,
       context: context,
     );
@@ -25,19 +26,23 @@ class _ForgotpasswordState extends State<Forgotpassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-
-      ),
+      appBar: AppBar(),
       body: Form(
         key: _formkey,
         child: Column(
           children: [
+            SizedBox(height: 50,),
+            Text(
+              "Forgot Passowrd",
+              style: TextStyle(fontFamily: "Sora", fontSize: 18),
+            ),
             Padding(
               padding: const EdgeInsets.all(35.0),
               child: TextFormField(
                 controller: emailcontroller,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(22)),
                   hintText: "Email",
                   prefixIcon: Icon(Icons.person),
                 ),
@@ -55,21 +60,43 @@ class _ForgotpasswordState extends State<Forgotpassword> {
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
-              onPressed: () {
-                if (_formkey.currentState!.validate()) {
-                  setState(() {
-                    email = emailcontroller.text;
-                  });
-                  resetPassword();
-                }
-              },
-              child: Text(
-                "Send Email",
-                style: TextStyle(color: Colors.white),
+            GestureDetector(onTap: (){
+    if (_formkey.currentState!.validate()) {
+          setState(() {
+            email = emailcontroller.text;
+          });
+          resetPassword();
+        }
+      },
+
+              child: Container(
+                height: 40,
+                width: 290,
+                decoration: BoxDecoration(
+                    color: HexColor("303050"),
+                    borderRadius: BorderRadius.circular(22)),
+                child: Center(
+                    child: Text(
+                  "Send Email",
+                  style: TextStyle(color: Colors.white, fontFamily: "Sora"),
+                )),
               ),
             ),
+            // ElevatedButton(
+            //   style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
+            //   onPressed: () {
+            //     if (_formkey.currentState!.validate()) {
+            //       setState(() {
+            //         email = emailcontroller.text;
+            //       });
+            //       resetPassword();
+            //     }
+            //   },
+            //   child: Text(
+            //     "Send Email",
+            //     style: TextStyle(color: Colors.white),
+            //   ),
+            // ),
           ],
         ),
       ),
