@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firestoreproject/emailverifaction/login.dart';
+import 'package:firestoreproject/viewmodel/news_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 
@@ -18,7 +20,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+   return ChangeNotifierProvider(
+      create: (context) => NewsViewModel()..fetchNews(),
+      child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -26,6 +30,6 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: Login(),
-    );
+    ) );
   }
 }
