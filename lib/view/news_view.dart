@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class Homes extends StatelessWidget {
+  const Homes({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,11 +29,11 @@ class Homes extends StatelessWidget {
       body: Consumer<NewsViewModel>(
         builder: (context, newsViewModel, child) {
           if (newsViewModel.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (newsViewModel.news == null) {
-            return Center(child: Text("Failed to load news"));
+            return const Center(child: Text("Failed to load news"));
           }
 
           return ListView.builder(
@@ -48,14 +50,22 @@ class Homes extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      article.urlToImage != null
-                          ? Image.network(article.urlToImage!)
-                          : Container(),
+                      Image.network(
+                        article.urlToImage ??
+                            'https://cdn.iconscout.com/icon/free/png-256/free-no-image-1771002-1505134.png',
+                        fit: BoxFit.fitHeight,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.network(
+                            'https://cdn.iconscout.com/icon/free/png-256/free-no-image-1771002-1505134.png',
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           article.title,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -63,7 +73,8 @@ class Homes extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
                           "Source: ${article.source.name}",
-                          style: TextStyle(fontSize: 14, color: Colors.grey),
+                          style:
+                              const TextStyle(fontSize: 14, color: Colors.grey),
                         ),
                       ),
                     ],

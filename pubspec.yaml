@@ -23,7 +23,7 @@ dependencies:
   hexcolor:
   google_sign_in:
   provider:
-  http: 
+  http:
   
 
 dev_dependencies:
