@@ -23,6 +23,7 @@ class _LoginState extends State<Login> {
         password: passwordController.text,
         context: context);
   }
+
   void signInWithGoogle() async {
     firebase(FirebaseAuth.instance).signInWithGoogle(context);
   }
@@ -154,7 +155,7 @@ class _LoginState extends State<Login> {
                     height: 70,
                   ),
                   GestureDetector(
-                    onTap:signInUser,
+                    onTap: signInUser,
                     child: Container(
                       height: 40,
                       width: 310,
@@ -198,7 +199,8 @@ class _LoginState extends State<Login> {
                   const SizedBox(
                     height: 30,
                   ),
-                  GestureDetector(onTap: signInWithGoogle,
+                  GestureDetector(
+                    onTap: signInWithGoogle,
                     child: Container(
                       height: 40,
                       width: 280,

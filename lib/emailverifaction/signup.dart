@@ -212,7 +212,8 @@ class _SignupState extends State<Signup> {
           const SizedBox(
             height: 10,
           ),
-          GestureDetector(onTap: signInWithGoogle,
+          GestureDetector(
+            onTap: signInWithGoogle,
             child: Container(
               height: 40,
               width: 280,

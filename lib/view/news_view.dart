@@ -16,16 +16,78 @@ class Homes extends StatelessWidget {
           style: TextStyle(fontFamily: "Sora", color: Colors.white),
         ),
         centerTitle: true,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-        ),
       ),
+      drawer: Drawer(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          child: Column(children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: HexColor("303050"),
+                border: const Border(
+                  bottom: BorderSide(
+                    color: Colors.grey,
+                    width: 0.0,
+                  ),
+                ),
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.person,
+                  size: 50,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, top: 20),
+              child: ListTile(
+                title: const Text(
+                  "H O M E",
+                  style: TextStyle(fontFamily: "Sora"),
+                ),
+                leading: const Icon(Icons.home),
+                onTap: () {
+                  //pop the drawer
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: ListTile(
+                title: const Text(
+                  "S E T T I N G S",
+                  style: TextStyle(fontFamily: "Sora"),
+                ),
+                leading: const Icon(Icons.settings),
+                onTap: () {
+                  //pop the drawer
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            const Spacer(),
+            Container(
+              color: HexColor("303050"),
+              child: ListTile(
+                leading: const Icon(
+                  Icons.logout,
+                  color: Colors.white,
+                ),
+                title: const Text(
+                  'Logout',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: "Sora",
+                  ),
+                ),
+                onTap: () {
+                  // Handle logout action
+                  Navigator.pop(context); // Close the drawer
+                },
+              ),
+            )
+          ])),
       body: Consumer<NewsViewModel>(
         builder: (context, newsViewModel, child) {
           if (newsViewModel.isLoading) {
