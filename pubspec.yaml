@@ -24,6 +24,7 @@ dependencies:
   google_sign_in:
   provider:
   http:
+  shared_preferences: ^2.2.3
   
 
 dev_dependencies:

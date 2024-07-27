@@ -1,9 +1,10 @@
-// ignore_for_file: use_key_in_widget_constructors
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firestoreproject/emailverifaction/forgotpassword.dart';
 import 'package:firestoreproject/emailverifaction/signup.dart';
+import 'package:firestoreproject/emailverifaction/snackbar.dart';
+import 'package:firestoreproject/view/news_view.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import 'firehelper.dart';
@@ -18,14 +19,32 @@ class _LoginState extends State<Login> {
   final TextEditingController passwordController = TextEditingController();
 
   void signInUser() async {
-    firebase(FirebaseAuth.instance).loginWithEmail(
-        email: emailController.text,
-        password: passwordController.text,
-        context: context);
+    if (formkey.currentState!.validate()) {
+      try {
+        await firebase(FirebaseAuth.instance).loginWithEmail(
+          email: emailController.text,
+          password: passwordController.text,
+          context: context,
+        );
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
+      
+      } catch (e) {
+        showSnackBar(context, e.toString());
+      }
+    }
   }
 
   void signInWithGoogle() async {
-    firebase(FirebaseAuth.instance).signInWithGoogle(context);
+    try {
+      await firebase(FirebaseAuth.instance).signInWithGoogle(context);
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Homes()));
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
   }
 
   @override
@@ -112,8 +131,8 @@ class _LoginState extends State<Login> {
                               pass.contains("/")) {
                             return "Enter valid password";
                           }
-                          if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(pass)) {
-                            return 'Please enter a valid email address';
+                          if (pass.length < 6) {
+                            return 'Password must be at least 6 characters';
                           } else {
                             return null;
                           }

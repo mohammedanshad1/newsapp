@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firestoreproject/emailverifaction/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firestoreproject/emailverifaction/snackbar.dart';
 
 import '../view/news_view.dart';
 
@@ -33,18 +33,18 @@ class firebase {
   }
 
   /// Email LOGIN
-  Future<void> loginWithEmail(
-      {required String email,
-      required String password,
-      required BuildContext context}) async {
+  Future<void> loginWithEmail({
+    required String email,
+    required String password,
+    required BuildContext context,
+  }) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-      if (!_auth.currentUser!.emailVerified) ;
-      {
-        // await sendEmailVerification(context);
+      if (!_auth.currentUser!.emailVerified) {
+        // showSnackBar(context, "Please verify your email before logging in.");
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Homes()));
-      }
+      } else {}
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message!);
     }
@@ -66,18 +66,10 @@ class firebase {
   }) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-        "Password Reset Email has been Sent!",
-        style: TextStyle(color: Colors.white),
-      )));
+      showSnackBar(context, "Password Reset Email has been Sent!");
     } on FirebaseAuthException catch (e) {
-      if (e.code == "user not found") {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-          "No User Found for That Email",
-          style: TextStyle(fontSize: 28),
-        )));
+      if (e.code == "user-not-found") {
+        showSnackBar(context, "No User Found for That Email");
       }
     }
   }
