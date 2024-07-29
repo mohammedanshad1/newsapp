@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firestoreproject/emailverifaction/snackbar.dart';
-
 import '../view/news_view.dart';
 
 class firebase {
@@ -19,8 +18,11 @@ class firebase {
     required BuildContext context,
   }) async {
     try {
-      UserCredential userCredential = await _auth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
       await sendEmailVerification(context);
 
       // Store user email in Firestore
@@ -39,14 +41,31 @@ class firebase {
     required BuildContext context,
   }) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-      if (!_auth.currentUser!.emailVerified) {
-        // showSnackBar(context, "Please verify your email before logging in.");
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Homes()));
-      } else {}
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Homes()),
+      );
+      // Check if the email is verified
+      if (userCredential.user != null && userCredential.user!.emailVerified) {
+      } else {
+        showSnackBar(context, "Logging Successfull");
+      }
     } on FirebaseAuthException catch (e) {
-      showSnackBar(context, e.message!);
+      // FirebaseAuthException has a code and message property
+      if (e.code == 'user-not-found') {
+        showSnackBar(context, "No user found for that email.");
+      } else if (e.code == 'wrong-password') {
+        showSnackBar(context, "Wrong password provided.");
+      } else {
+        showSnackBar(context, "Error: ${e.message}");
+      }
+    } catch (e) {
+      // Catch any other errors
+      showSnackBar(context, "An unexpected error occurred. Please try again.");
     }
   }
 
@@ -80,9 +99,15 @@ class firebase {
       // Trigger the authentication flow
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
+      // If the user cancels the sign-in flow, googleUser will be null
+      if (googleUser == null) {
+        showSnackBar(context, "Google sign-in was cancelled.");
+        return;
+      }
+
       // Obtain the auth details from the request
       final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+          await googleUser.authentication;
 
       // Create a new credential
       final credential = GoogleAuthProvider.credential(
@@ -96,15 +121,17 @@ class firebase {
 
       // Store user email in Firestore
       await _firestore.collection('users').doc(userCredential.user!.uid).set({
-        'email': googleUser!.email,
+        'email': googleUser.email,
       });
 
-      // Navigate to HomePage
+      // Navigate to the home screen if the sign-in is successful
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Homes()));
+        context,
+        MaterialPageRoute(builder: (context) => Homes()),
+      );
     } catch (e) {
       // Handle error
-      print(e);
+      showSnackBar(context, "Failed to sign in with Google: $e");
     }
   }
 }

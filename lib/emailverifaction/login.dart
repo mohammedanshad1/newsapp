@@ -17,9 +17,11 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool showPass = true;
 
   void signInUser() async {
-    if (formkey.currentState!.validate()) {
+    if (formKey.currentState!.validate()) {
       try {
         await firebase(FirebaseAuth.instance).loginWithEmail(
           email: emailController.text,
@@ -39,107 +41,100 @@ class _LoginState extends State<Login> {
       await firebase(FirebaseAuth.instance).signInWithGoogle(context);
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('isLoggedIn', true);
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Homes()));
     } catch (e) {
       showSnackBar(context, e.toString());
     }
   }
 
   @override
-  GlobalKey<FormState> formkey = GlobalKey();
-  bool showpass = true;
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(),
         body: Form(
-          key: formkey,
+          key: formKey,
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
                   const Center(
-                      child: Text(
-                    "Welcome back ",
-                    style: TextStyle(
-                        color: Colors.black, fontFamily: "Sora", fontSize: 20),
-                  )),
+                    child: Text(
+                      "Welcome back",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: "Sora",
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
                   const Center(
-                      child: Text(
-                    " login to your account ",
-                    style: TextStyle(
-                        color: Colors.black, fontSize: 18, fontFamily: "Sora"),
-                  )),
-                  const SizedBox(
-                    height: 70,
+                    child: Text(
+                      "Login to your account",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontFamily: "Sora",
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 70),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: TextFormField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(22),
+                        ),
+                        prefixIcon: const Icon(Icons.person),
+                        labelText: "Email",
+                      ),
+                      validator: (email) {
+                        if (email == null || email.isEmpty) {
+                          return "Enter valid email";
+                        }
+                        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email)) {
+                          return 'Please enter a valid email address';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: TextFormField(
-                        controller: emailController,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(22)),
-                            prefixIcon: const Icon(Icons.person),
-                            labelText: "Email"),
-                        validator: (email) {
-                          if (email == null ||
-                              email.isEmpty ||
-                              email.contains("#") ||
-                              email.contains("/")) {
-                            return "Enter valid username";
-                          }
-                          if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email)) {
-                            return 'Please enter a valid email address';
-                          } else {
-                            return null;
-                          }
-                        }),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: TextFormField(
-                        obscuringCharacter: "*",
-                        obscureText: showpass,
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(22)),
-                          labelText: "Password",
-                          prefixIcon: const Icon(Icons.password),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                if (showpass) {
-                                  showpass = false;
-                                } else {
-                                  showpass = true;
-                                }
-                              });
-                            },
-                            icon: Icon(showpass == true
-                                ? Icons.visibility_off
-                                : Icons.visibility),
+                      obscuringCharacter: "*",
+                      obscureText: showPass,
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(22),
+                        ),
+                        labelText: "Password",
+                        prefixIcon: const Icon(Icons.password),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              showPass = !showPass;
+                            });
+                          },
+                          icon: Icon(
+                            showPass ? Icons.visibility_off : Icons.visibility,
                           ),
                         ),
-                        validator: (pass) {
-                          if (pass == null ||
-                              pass.isEmpty ||
-                              pass.contains("#") ||
-                              pass.contains("/")) {
-                            return "Enter valid password";
-                          }
-                          if (pass.length < 6) {
-                            return 'Password must be at least 6 characters';
-                          } else {
-                            return null;
-                          }
-                        }),
+                      ),
+                      validator: (pass) {
+                        if (pass == null || pass.isEmpty) {
+                          return "Enter valid password";
+                        }
+                        if (pass.length < 6) {
+                          return 'Password must be at least 6 characters';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
-                  const SizedBox(
-                    height: 0,
-                  ),
+                  const SizedBox(height: 0),
                   Column(
                     children: [
                       Padding(
@@ -154,19 +149,21 @@ class _LoginState extends State<Login> {
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const Forgotpassword()));
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const Forgotpassword(),
+                                  ),
+                                );
                               },
                               child: const Text(
-                                "Forgot Passowrd?",
+                                "Forgot Password?",
                                 style: TextStyle(fontFamily: "Sora"),
                               ),
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                   const SizedBox(

@@ -1,17 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
-void showSnackBar(BuildContext context, String text) {
+void showSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text(
-        text,
-        style: TextStyle(
-          color: Colors.white,
-          fontFamily: 'Sora',
-        ),
-      ),
-      backgroundColor: Color(0xFF303050),
+      content: Text(message),
+      backgroundColor: HexColor("#08153c"),
+      duration: Duration(seconds: 3),
     ),
   );
 }
