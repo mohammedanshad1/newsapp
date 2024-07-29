@@ -28,7 +28,6 @@ class _LoginState extends State<Login> {
         );
         final prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isLoggedIn', true);
-      
       } catch (e) {
         showSnackBar(context, e.toString());
       }

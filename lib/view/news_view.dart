@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firestoreproject/drawer/drawer.dart';
 import 'package:firestoreproject/viewmodel/news_viewmodel.dart';
 import 'package:flutter/material.dart';
