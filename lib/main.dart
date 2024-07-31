@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             iconTheme: IconThemeData(color: Colors.white),
           ),
         ),
-        home: SplashView(),
+        home: const SplashView(),
       ),
     );
   }

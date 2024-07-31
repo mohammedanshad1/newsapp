@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firestoreproject/emailverifaction/forgotpassword.dart';
 import 'package:firestoreproject/emailverifaction/signup.dart';
 import 'package:firestoreproject/emailverifaction/snackbar.dart';
-import 'package:firestoreproject/view/news_view.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hexcolor/hexcolor.dart';
