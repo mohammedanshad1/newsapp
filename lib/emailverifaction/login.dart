@@ -19,7 +19,6 @@ class _LoginState extends State<Login> {
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool showPass = true;
-
   void signInUser() async {
     if (formKey.currentState!.validate()) {
       try {
