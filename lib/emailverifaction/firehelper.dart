@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +27,7 @@ class firebase {
         password: password,
       );
       await sendEmailVerification(context);
-
+      
       // Store user email in Firestore
       await _firestore.collection('users').doc(userCredential.user!.uid).set({
         'email': email,
@@ -106,6 +108,8 @@ class firebase {
         return;
       } else {
         showSnackBar(context, "Logging Successfull");
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
       }
       final GoogleSignInAuthentication? googleAuth =
           await googleUser.authentication;

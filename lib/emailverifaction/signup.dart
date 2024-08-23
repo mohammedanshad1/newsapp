@@ -16,8 +16,7 @@ class _SignupState extends State<Signup> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  void signUpUser() async {
+ void signUpUser() async {
     if (_formKey.currentState!.validate()) {
       firebase(FirebaseAuth.instance).signUpWithEmail(
           email: emailController.text,
@@ -29,6 +28,7 @@ class _SignupState extends State<Signup> {
   void signInWithGoogle() async {
     firebase(FirebaseAuth.instance).signInWithGoogle(context);
   }
+
 
   bool showPass = true;
   bool showConfirmPass = true;

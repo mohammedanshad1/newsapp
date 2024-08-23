@@ -31,7 +31,9 @@ class _ForgotpasswordState extends State<Forgotpassword> {
         key: _formkey,
         child: Column(
           children: [
-            SizedBox(height: 50,),
+            SizedBox(
+              height: 50,
+            ),
             Text(
               "Forgot Passowrd",
               style: TextStyle(fontFamily: "Sora", fontSize: 18),
@@ -60,15 +62,15 @@ class _ForgotpasswordState extends State<Forgotpassword> {
             SizedBox(
               height: 20,
             ),
-            GestureDetector(onTap: (){
-    if (_formkey.currentState!.validate()) {
-          setState(() {
-            email = emailcontroller.text;
-          });
-          resetPassword();
-        }
-      },
-
+            GestureDetector(
+              onTap: () {
+                if (_formkey.currentState!.validate()) {
+                  setState(() {
+                    email = emailcontroller.text;
+                  });
+                  resetPassword();
+                }
+              },
               child: Container(
                 height: 40,
                 width: 290,
