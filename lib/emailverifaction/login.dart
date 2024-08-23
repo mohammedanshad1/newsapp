@@ -62,7 +62,7 @@ class _LoginState extends State<Login> {
                       style: TextStyle(
                         color: Colors.black,
                         fontFamily: "Sora",
-                        fontSize: 20,
+                        fontSize: 21,
                       ),
                     ),
                   ),
