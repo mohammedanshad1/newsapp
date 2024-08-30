@@ -18,7 +18,7 @@ class _LoginState extends State<Login> {
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool showPass = true;
-  
+
   void signInUser() async {
     if (formKey.currentState!.validate()) {
       try {
@@ -29,6 +29,7 @@ class _LoginState extends State<Login> {
         );
         final prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isLoggedIn', true);
+        print("hi");
       } catch (e) {
         showSnackBar(context, e.toString());
       }
